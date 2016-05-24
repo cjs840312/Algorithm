@@ -1,1 +1,4 @@
 do*
+bin/
+obj/
+lib/
