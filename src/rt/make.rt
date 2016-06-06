@@ -1,0 +1,16 @@
+all : ../../lib/libRt.a
+
+../../lib/libRt.a : ../../obj/parse_block.o ../../obj/cmdRt.o
+	@echo -n " > making library libRt.a ...     "
+	@ar -rcs $@ $^
+	@echo "Success !!"
+
+../../obj/cmdRt.o : cmdRt.cpp cmdRt.h
+	@echo -n " > compilng cmdRt.cpp ...         "
+	@g++ -c $< -o $@
+	@echo "Success !!"
+
+../../obj/parse_block.o : parse_block.cpp
+	@echo -n " > compilng parse_block.cpp ...   "
+	@g++ -c $< -o $@
+	@echo "Success !!"
