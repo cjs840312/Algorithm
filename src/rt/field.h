@@ -2,21 +2,9 @@
 #define FIELD
 
 #include <vector>
+#include <map>
 #include "block.h"
 using namespace std;
-
-class Plane
-{
-
-public :
-	Plane(){}
-
-
-private :
-
-
-};
-
 
 
 class Field
@@ -27,10 +15,8 @@ public :
 
 
 
-
-	vector<Plane> planes;
-
-	vector<block> blocks;
+	vector<string> inputs;
+	map<string,block> blocks;
 
 };
 

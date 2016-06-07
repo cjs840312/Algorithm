@@ -2,7 +2,6 @@
 #define RTMGR
 
 #include <string>
-#include <map>
 #include <fstream>
 #include "field.h"
 using namespace std;
@@ -10,16 +9,11 @@ using namespace std;
 class RtMgr
 {   
 public:
-   RtMgr(){}
-   bool parse( ifstream& fin, int n)
-   {
-   	if(n==3)
-   		parse_block(fin);
-   }
+    RtMgr(){}
+   	bool parse_block(ifstream&);
+	bool parse_v(ifstream&);
 
 private:
-	
-	bool parse_block(ifstream&);
 	Field field;
 
 };

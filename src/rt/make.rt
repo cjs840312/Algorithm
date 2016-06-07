@@ -1,6 +1,6 @@
 all : ../../lib/libRt.a
 
-../../lib/libRt.a : ../../obj/parse_block.o ../../obj/cmdRt.o
+../../lib/libRt.a : ../../obj/parse_block.o ../../obj/cmdRt.o ../../obj/parse_v.o
 	@echo -n " > making library libRt.a ...     "
 	@ar -rcs $@ $^
 	@echo "Success !!"
@@ -10,7 +10,12 @@ all : ../../lib/libRt.a
 	@g++ -c $< -o $@
 	@echo "Success !!"
 
-../../obj/parse_block.o : parse_block.cpp
+../../obj/parse_block.o : parse_block.cpp RtMgr.h
+	@echo -n " > compilng parse_block.cpp ...   "
+	@g++ -c $< -o $@
+	@echo "Success !!"
+
+../../obj/parse_v.o : parse_v.cpp RtMgr.h
 	@echo -n " > compilng parse_block.cpp ...   "
 	@g++ -c $< -o $@
 	@echo "Success !!"
