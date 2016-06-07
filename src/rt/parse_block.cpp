@@ -168,46 +168,48 @@ static bool parse_macro(ifstream& fin,vector<string>& v,Field& field)
   temp_block.name=v[1];
 
   while(getline(fin,s))
-   {  
-      check_comment(s);
-      vector<string> tokens;
-      myStr2Tok(s,tokens);
-      if(tokens.empty()) continue;
-      switch(parse_state(tokens[0]))
-      {
-          case CLASS :
-            temp_block.CLASS=tokens[1];
-            break;
-          case SYMMETRY :
-            for(int i=1,sizet=tokens.size();i<sizet;i++)
-              temp_block.SYMMETRY.push_back(tokens[i]);
-            break;
-          case SIZE :
-            myStr2Int(tokens[1], temp_block.size[0]);
-            myStr2Int(tokens[3], temp_block.size[1]);
-            break;
-          case ORIGIN :
-            myStr2Int(tokens[1], temp_block.ORIGIN[0]);
-            myStr2Int(tokens[2], temp_block.ORIGIN[1]);
-            break;
-          case PIN :
-            parse_pin(fin,tokens,temp_block);
-            break;
-          case OBS :
-            parse_layer(fin,tokens,temp_block.OBS);
-            break;
-          case END :
-            if(tokens[1]==temp_block.name && tokens.size()==2)
-              return true;
-            cerr<<"Illigal header \""<<tokens[1]<<"\" !!";
-            return false;
-          case ERO :
-          default :
-            cerr<<"Illigal header \""<<tokens[0]<<"\" !!";
-            return false;
-      }
-   }
-   field.blocks.push_back(temp_block);
+  {  
+    check_comment(s);
+    vector<string> tokens;
+    myStr2Tok(s,tokens);
+    if(tokens.empty()) continue;
+    switch(parse_state(tokens[0]))
+    {
+        case CLASS :
+          temp_block.CLASS=tokens[1];
+          break;
+        case SYMMETRY :
+          for(int i=1,sizet=tokens.size();i<sizet;i++)
+            temp_block.SYMMETRY.push_back(tokens[i]);
+          break;
+        case SIZE :
+          myStr2Int(tokens[1], temp_block.size[0]);
+          myStr2Int(tokens[3], temp_block.size[1]);
+          break;
+        case ORIGIN :
+          myStr2Int(tokens[1], temp_block.ORIGIN[0]);
+          myStr2Int(tokens[2], temp_block.ORIGIN[1]);
+          break;
+        case PIN :
+          parse_pin(fin,tokens,temp_block);
+          break;
+        case OBS :
+          parse_layer(fin,tokens,temp_block.OBS);
+          break;
+        case END :
+          if(tokens[1]==temp_block.name && tokens.size()==2)
+          {
+            (field.blocks).insert( pair<string,block> (v[1],temp_block) ); 
+            return true;
+          }
+          cerr<<"Illigal header \""<<tokens[1]<<"\" !!";
+          return false;
+        case ERO :
+        default :
+          cerr<<"Illigal header \""<<tokens[0]<<"\" !!";
+          return false;
+    }
+  }
 }
 static bool parse_pin(ifstream& fin,vector<string>& v,block& temp_block)
 {
@@ -235,7 +237,10 @@ static bool parse_pin(ifstream& fin,vector<string>& v,block& temp_block)
           break;
         case END :
           if(tokens[1]==temp_pin.name && tokens.size()==2)
+          {
+            temp_block.pins.insert(pair<string,pin> (v[1],temp_pin));
             return true;
+          }
           cerr<<"Illigal header \""<<tokens[1]<<"\" !!";
           return false;
         case ERO :
@@ -244,7 +249,6 @@ static bool parse_pin(ifstream& fin,vector<string>& v,block& temp_block)
           return false;
     }
   }
-  temp_block.pins.push_back(temp_pin);
 
 }
 
