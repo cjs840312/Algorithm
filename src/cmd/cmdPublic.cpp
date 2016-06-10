@@ -1,5 +1,4 @@
 #include <cassert>
-//#include <cstdlib>
 #include "cmd.h"
 #include "../util/help_function.h"
 
@@ -65,7 +64,6 @@ CmdParser::openOutput(const string& out)
 bool
 CmdParser::regCmd(const string& cmd, unsigned nCmp, CmdExec* e)
 {
-  
    // Make sure cmd hasn't been registered and won't cause ambiguity
    string str = cmd;
    unsigned s = str.size();
