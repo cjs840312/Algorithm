@@ -14,11 +14,10 @@ public :
 	
 	Field(){}
 
-
-
 	vector<string> inputs;
 	map<string, block> blocks;
 	map<string, Layer> layers_map;
+	vector<  vector< Via > > Vias_matrix;
 
 };
 

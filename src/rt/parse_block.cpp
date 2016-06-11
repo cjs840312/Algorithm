@@ -159,7 +159,7 @@ static bool parse_site(ifstream& fin,vector<string>& v)
             return false;
       }
    }
-
+   
 }
 static bool parse_macro(ifstream& fin,vector<string>& v,Field& field)
 {
@@ -249,7 +249,6 @@ static bool parse_pin(ifstream& fin,vector<string>& v,block& temp_block)
           return false;
     }
   }
-
 }
 
 static bool parse_layer(ifstream& fin,vector<string>& v,vector<vector<string> >& layers)
@@ -286,5 +285,4 @@ static bool parse_layer(ifstream& fin,vector<string>& v,vector<vector<string> >&
     }
   }
   layers.push_back(x);
-
 }

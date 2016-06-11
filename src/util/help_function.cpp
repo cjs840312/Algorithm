@@ -101,7 +101,7 @@ bool myStr2float(const string& str, float& num)
   for(int i=0;i<str_float.size();i++)
       temp_float/=10;
   num=int_part+temp_float;
-return true;
+  return true;
 }
 // Convert scientific notation string "str" to float "num". Return false if str does not appear
 // to be a number
@@ -124,4 +124,5 @@ bool mySci2float(const string& str, float& num)
     for(int i=0;i<int_exp*(-1);i++)
       num/=10;
   }
+  return true;
 }
