@@ -10,6 +10,8 @@ int myStrNCmp(const string&, const string&, unsigned);
 
 size_t myStrGetTok(const string&, string&, size_t=0,string=" ");
 int myStr2Tok(const string&, vector<string>&,string =" ");
-bool myStr2Int(const string& str, int& num);
+bool myStr2Int(const string&, int& );
+bool myStr2float(const string&, float& );
+bool mySci2float(const string&, float& );
 
 #endif

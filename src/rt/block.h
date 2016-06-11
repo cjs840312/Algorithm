@@ -14,6 +14,7 @@ public:
   string USE;
 
   vector<vector<string> > PORT; // need to be tarsform to int
+
   vector<string > destination ;
 };
 
@@ -23,7 +24,7 @@ class block
 public :
 	block():num(0){};
 
-  int num;
+    int num;
 	string name;
 	string CLASS;
 	int ORIGIN[2];

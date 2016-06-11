@@ -70,3 +70,47 @@ bool myStr2Int(const string& str, int& num)
    num *= sign;
    return valid;
 }
+// Convert string "str" to float "num". Return false if str does not appear
+// to be a number
+bool myStr2float(const string& str, float& num)
+{
+  size_t n =str.find_first_of(".");
+  string str_int,str_float="";
+  if( n!=string::npos )
+  {
+    str_int=str.substr(0,n);
+    str_float=str.substr(n+1);
+  }
+  else 
+    str_int=str;
+  int int_part=0,float_part=0;
+  myStr2Int(str_int,int_part);
+  myStr2Int(str_float,float_part);
+  float temp_float=float_part;
+  for(int i=0;i<str_float.size();i++)
+      temp_float/=10;
+  num=int_part+temp_float;
+return true;
+}
+// Convert scientific notation string "str" to float "num". Return false if str does not appear
+// to be a number
+bool mySci2float(const string& str, float& num)
+{
+  size_t n = str.find_first_of('e');
+  string str_float,str_exp;
+  str_float=str.substr(0,n);
+  str_exp=str.substr(n+1);
+  int int_exp;
+  myStr2Int(str_exp,int_exp);
+  myStr2float(str_float,num);
+  if(int_exp>=0)
+  {
+    for(int i=0;i<int_exp;i++)
+      num*=10;
+  }
+  else
+  {
+    for(int i=0;i<int_exp*(-1);i++)
+      num/=10;
+  }
+}

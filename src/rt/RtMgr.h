@@ -12,6 +12,8 @@ public:
     RtMgr(){}
    	bool parse_block(ifstream&);
 	bool parse_v(ifstream&);
+	bool parse_tech(ifstream&);
+
 
 private:
 	Field field;

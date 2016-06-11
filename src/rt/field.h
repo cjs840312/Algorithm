@@ -4,6 +4,7 @@
 #include <vector>
 #include <map>
 #include "block.h"
+#include "layer.h"
 using namespace std;
 
 
@@ -16,7 +17,8 @@ public :
 
 
 	vector<string> inputs;
-	map<string,block> blocks;
+	map<string, block> blocks;
+	map<string, Layer> layers_map;
 
 };
 
