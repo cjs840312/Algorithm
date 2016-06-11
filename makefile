@@ -7,15 +7,18 @@ dir :
 
 bin/cmd : obj/main.o library
 	@echo -n " > linking object files ...       "
-	@g++  $< -o $@ -Llib -lCmd -lRt
+	@g++  $< -o $@ -Llib -lCmd -lRt -lBmp
 	@echo "Success !!"
 
 library :
 	@echo    "checking libcmd.a ..."
-	@cd src/cmd ;make -f make.cmd --no-print-directory --silent;
+	@cd src/cmd ;make -f cmd.make --no-print-directory --silent;
 	
 	@echo    "checking libRt.a ..."
-	@cd src/rt ;make -f make.rt --no-print-directory --silent;
+	@cd src/rt ;make -f rt.make --no-print-directory --silent;
+
+	@echo    "checking libBmp.a ..."
+	@cd src/bmp ;make -f bmp.make --no-print-directory --silent;
 
 obj/main.o : src/main.cpp src/cmd/cmd.h src/util/help_function.h src/util/myUsage.h
 	@echo -n " > compilng main.cpp ...          "

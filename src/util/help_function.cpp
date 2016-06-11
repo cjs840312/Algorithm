@@ -70,6 +70,17 @@ bool myStr2Int(const string& str, int& num)
    num *= sign;
    return valid;
 }
+
+char dec_to_hex(unsigned int n)
+{
+  if(n<10)
+    return (char)(n+48);
+  else
+    return (char)(n+55);
+}
+
+unsigned int color_gen(int x,int y,int z) {return 256*256*x+256*y+z;}
+
 // Convert string "str" to float "num". Return false if str does not appear
 // to be a number
 bool myStr2float(const string& str, float& num)

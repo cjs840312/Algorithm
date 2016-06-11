@@ -4,5 +4,8 @@
 #include "../cmd/cmd.h"
 
 CmdClass(ReadCmd);
+CmdClass(ModulizeCmd);
+CmdClass(RoutingCmd);
+CmdClass(PrintCmd);
 
 #endif 
