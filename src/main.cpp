@@ -63,7 +63,7 @@ int main(int argc, char** argv)
        <<"* Group         : NTUEE_JTCC                                                   *"<<endl
        <<"* Author        : Chen, Jia-Shiuan  Tsai, Cheng-Wei                            *"<<endl
        <<"* Version       : Alpha                                                        *"<<endl
-       <<"* Last modified : 2016.06.05                                                   *"<<endl
+       <<"* Last modified : 2016.06.12                                                   *"<<endl
        <<"* Description   :                                                              *"<<endl
        <<"********************************************************************************"<<endl;
 

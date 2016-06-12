@@ -5,6 +5,10 @@
 #include <map>
 using namespace std;
 
+struct Rect
+{
+	float rect[4];
+};
 
 class Layer
 {
@@ -34,9 +38,11 @@ public:
 
 	string name;
 	int cross_layer[2];
-	char type;
+	string type;
 	float Re;
-	map<int, float[4] >  rect_map;
+	std::map<int, vector<float> >  rect_map;
 };
+
+
 
 #endif

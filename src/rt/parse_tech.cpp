@@ -61,12 +61,16 @@ RtMgr::parse_tech(ifstream& fin)
   				break;
   			case MANUFACTURINGGRID:
   				myStr2float(tokens[1], grid);
+  				break;
   			case USEMINSPACING:
   				use_min_spacing = tokens[2];
+  				break;
   			case LAYER:
   				parse_layer(fin, tokens, field);
+  				break;
   			case VIA:
   				parse_via(fin, tokens, field);
+  				break;
   			case END:	
   				return true;
 			default :
@@ -119,8 +123,12 @@ static bool parse_layer(ifstream& fin, vector<string>& v, Field& field)
 {
 	string s;	
 	Layer temp_layer;
-	if( !myStrNCmp("METAL", v[1], 5 ) ) 
+	//if( !myStrNCmp("METAL", v[1], 5 ) ) 
+	if ( v[1][0] != 'M' ) {
+		getline(fin, s);
+		getline(fin, s);
 		return false;
+	}
 	temp_layer.name = v[1];
 	string id_string = v[1].substr(5);
 	myStr2Int( id_string, temp_layer.id );
@@ -153,7 +161,7 @@ static bool parse_layer(ifstream& fin, vector<string>& v, Field& field)
     			temp_layer.direction = tokens[1];
     			break;
     		case RESISTANCE:
-    			mySci2float(tokens[1], temp_layer.Re_per_Sqrt);
+    			mySci2float(tokens[2], temp_layer.Re_per_Sqrt);
     			break;
     		case END:
     			if( tokens[1] == temp_layer.name && tokens.size() == 2) {
@@ -174,10 +182,10 @@ static bool parse_via(ifstream& fin, vector<string>& v, Field& field)
 	Via temp_via;
 	temp_via.name = v[1];
 	string buff = v[1].substr(3);
-	int n = v[1].find_first_of("_");
+	int n = buff.find_first_of("_");
 	myStr2Int( buff.substr(0,n), temp_via.cross_layer[0] );
 	temp_via.cross_layer[1] = temp_via.cross_layer[0] + 1; 
-	temp_via.type = buff.substr(n)[0];
+	temp_via.type = buff.substr(n+1);
 
 	while(getline(fin,s))
 	{
@@ -187,26 +195,44 @@ static bool parse_via(ifstream& fin, vector<string>& v, Field& field)
 		switch (parse_state(tokens[0]) )
 		{
 			case RESISTANCE:
+			{
 				mySci2float( tokens[1], temp_via.Re);
 				break;
+			}
 			case LAYER:
-				if ( !myStrNCmp("METAL", tokens[1], 5 ) )
+			{
+				//if ( !myStrNCmp("METAL", tokens[1], 5 ) )
+				if( tokens[1][0] != 'M' ) {
+					getline(fin, s);
 					break;
+				}
 				int layer_num;
 				myStr2Int(tokens[1].substr(5), layer_num);
-				
+
+				tokens.clear();
 				getline(fin,s);
 				myStr2Tok(s,tokens);
-				float temp_rect[4];
-				for(int i =0; i<4; ++i)
-					myStr2float( tokens[ i+1], temp_rect[i] );
-				cout<<"layer_num = "<<layer_num<<" temp_rect="<<temp_rect[0]<<" "<<temp_rect[2]<<endl;
-				(temp_via.rect_map).insert( pair<int, float[4]> (layer_num, temp_rect) );
+				//Rect temp_rect = {0.0, 0.0, 0.0, 0.0};
+				vector<float> temp_rect;
+				for(int i =1; i<5; ++i) {
+					float tmp;
+					myStr2float( tokens[ i ], tmp); //temp_rect.rect[ i -1 ] );
+					temp_rect.push_back(tmp);
+				}
+				(temp_via.rect_map).insert( std::pair<int, vector<float> > (layer_num, temp_rect) );
 				break;
+			}
 			case END:
+			{
 				if( tokens[1] == temp_via.name && tokens.size() == 2) {
-    				if( field.Vias_matrix.back().back().cross_layer[0] == temp_via.cross_layer[0] )
+					if( field.Vias_matrix.empty() ) {
+						vector<Via> tmp_list;
+						tmp_list.push_back( temp_via );
+						field.Vias_matrix.push_back( tmp_list );
+					}
+    				else if( field.Vias_matrix.back().back().cross_layer[0] == temp_via.cross_layer[0] ) {
     					field.Vias_matrix.back().push_back( temp_via );
+    				}
     				else {
     					vector<Via> tmp_list;
     					tmp_list.push_back(temp_via);
@@ -216,9 +242,12 @@ static bool parse_via(ifstream& fin, vector<string>& v, Field& field)
     			}
     			cerr<<"Illigal header \""<<tokens[1]<<"\" !!";
           		return false;
+          	}
     		default:
+    		{
     			cerr<<"Illigal header \""<<tokens[0]<<"\" !!";
             	return false;
+            }
 		}
 
 	}

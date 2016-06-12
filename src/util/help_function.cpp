@@ -87,9 +87,11 @@ bool myStr2float(const string& str, float& num)
 {
   size_t n =str.find_first_of(".");
   string str_int,str_float="";
+  int sign = 1, remove_sign = 0;  
   if( n!=string::npos )
   {
-    str_int=str.substr(0,n);
+    if (str[0] == '-') { sign = -1; remove_sign = 1; }
+    str_int=str.substr(remove_sign,n);
     str_float=str.substr(n+1);
   }
   else 
@@ -101,6 +103,7 @@ bool myStr2float(const string& str, float& num)
   for(int i=0;i<str_float.size();i++)
       temp_float/=10;
   num=int_part+temp_float;
+  num *= sign;
   return true;
 }
 // Convert scientific notation string "str" to float "num". Return false if str does not appear
