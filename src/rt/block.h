@@ -12,6 +12,8 @@ public:
   string name;
   string DIRECTION;
   string USE;
+  float current;
+  float IR_drop;
 
   vector<vector<string> > PORT; // need to be tarsform to int
 

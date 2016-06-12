@@ -129,7 +129,8 @@ static bool parse_layer(ifstream& fin, vector<string>& v, Field& field)
 		getline(fin, s);
 		return false;
 	}
-	temp_layer.name = v[1];
+	temp_layer.name = v[1].front();
+	temp_layer.name += v[1].substr(5);
 	string id_string = v[1].substr(5);
 	myStr2Int( id_string, temp_layer.id );
 	while(getline(fin,s))
@@ -164,7 +165,7 @@ static bool parse_layer(ifstream& fin, vector<string>& v, Field& field)
     			mySci2float(tokens[2], temp_layer.Re_per_Sqrt);
     			break;
     		case END:
-    			if( tokens[1] == temp_layer.name && tokens.size() == 2) {
+    			if( tokens[1].back() == temp_layer.name.back() && tokens.size() == 2) {
     				(field.layers_map).insert( pair<string, Layer> (v[1],temp_layer) ); 
     				return true;
     			}

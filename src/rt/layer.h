@@ -27,7 +27,7 @@ public :
 	int offset;
 	string direction;
 	float Re_per_Sqrt;
-
+	float metal_weight;
 };
 
 class Via

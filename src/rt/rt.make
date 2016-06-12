@@ -2,7 +2,7 @@ all : ../../lib/libRt.a
 
 ../../lib/libRt.a : ../../obj/parse_block.o ../../obj/cmdRt.o ../../obj/parse_v.o \
 						 ../../obj/graph.o ../../obj/modulize.o ../../obj/routing.o \
-						 ../../obj/parse_tech.o
+						 ../../obj/parse_tech.o ../../obj/parse_initial.o 
 	@echo -n " > making library libRt.a ...     "
 	@ar -rcs $@ $^
 	@echo "Success !!"
@@ -41,3 +41,12 @@ all : ../../lib/libRt.a
 	@echo -n " > compilng parse_tech.cpp ...   "
 	@g++ -c $< -o $@
 	@echo "Success !!"
+
+../../obj/parse_initial.o  : parse_initial.cpp RtMgr.h
+	@echo -n " > compilng parse_initial.cpp ...   "
+	@g++ -c $< -o $@
+	@echo "Success !!"
+
+
+
+

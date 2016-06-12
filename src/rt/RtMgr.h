@@ -17,6 +17,7 @@ public:
   	bool parse_block(ifstream&);
 	bool parse_v(ifstream&);
 	bool parse_tech(ifstream&);
+	bool parse_initial(ifstream&);
 
 
    bool modulize();
@@ -24,7 +25,7 @@ public:
    void print(int,string);
 
 private:
-	Field field;
+   Field field;
    Graph* graphs;
    stack< vector<int> > pathes;
 };
