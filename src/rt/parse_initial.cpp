@@ -65,7 +65,7 @@ static void parse_voltage( ifstream& fin)
 		float tmp_float;
 		myStr2float( tokens[1], tmp_float);
 		
-		//tmp_float save to VDD1
+		//tmp_float save to each VDD
 	}
 }
 static void parse_IRdrop( ifstream& fin)
@@ -88,9 +88,10 @@ static void parse_weight( ifstream& fin,  Field& field)
 	{
 		vector<string> tokens;
 		myStr2Tok(s,tokens);
-		if(tokens.empty()) return;
+		if(tokens.empty()) continue;
 		float tmp_float;
 		myStr2float( tokens[1], tmp_float);
 		field.layers_map.find( tokens[0] )->second.metal_weight = tmp_float;
+
 	}
 }

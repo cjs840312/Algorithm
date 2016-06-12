@@ -18,6 +18,7 @@ public:
 	bool parse_v(ifstream&);
 	bool parse_tech(ifstream&);
 	bool parse_initial(ifstream&);
+	bool parse_input_def(ifstream&);
 
 
    bool modulize();

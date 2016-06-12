@@ -40,7 +40,8 @@ ReadCmd::exec(const string& option)
       ifstream fin0( target[0].c_str()),
                fin3( target[3].c_str()), 
                fin2( target[2].c_str()),
-               fin4( target[4].c_str()) ;
+               fin4( target[4].c_str()), 
+               fin1( target[1].c_str()) ;
 
 
       if( !fin3.is_open() || !rtMgr->parse_block(fin3))
@@ -66,7 +67,13 @@ ReadCmd::exec(const string& option)
       }
       cout << "Read input file  \""<<target[0]<<"\" successfully" << endl;
 
-   
+      if( !fin1.is_open() || !rtMgr->parse_input_def(fin1))
+      {
+         cout<<"Read input file \""<<target[1]<<"\" failed" << endl;
+         return CMD_EXEC_ERROR;
+      }
+      cout << "Read input file  \""<<target[1]<<"\" successfully" << endl;
+
       if( !fin4.is_open() || !rtMgr->parse_initial(fin4))
       {
          cout<<"Read input file \""<<target[4]<<"\" failed" << endl;

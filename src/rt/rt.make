@@ -2,7 +2,7 @@ all : ../../lib/libRt.a
 
 ../../lib/libRt.a : ../../obj/parse_block.o ../../obj/cmdRt.o ../../obj/parse_v.o \
 						 ../../obj/graph.o ../../obj/modulize.o ../../obj/routing.o \
-						 ../../obj/parse_tech.o ../../obj/parse_initial.o 
+						 ../../obj/parse_tech.o ../../obj/parse_initial.o ../../obj/parse_input_def.o 
 	@echo -n " > making library libRt.a ...     "
 	@ar -rcs $@ $^
 	@echo "Success !!"
@@ -47,6 +47,7 @@ all : ../../lib/libRt.a
 	@g++ -c $< -o $@
 	@echo "Success !!"
 
-
-
-
+../../obj/parse_input_def.o  : parse_input_def.cpp RtMgr.h
+	@echo -n " > compilng parse_input_def.cpp ...   "
+	@g++ -c $< -o $@
+	@echo "Success !!"
