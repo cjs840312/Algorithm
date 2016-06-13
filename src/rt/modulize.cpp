@@ -6,38 +6,53 @@ bool
 RtMgr::modulize()
 {
   graphs = new Graph[1] ;
-  graphs[0].init(20,20);
+  graphs[0].init(300,300);
 
-  graphs[0].set_obs(3,3,5,5);
-  graphs[0].set_obs(10,13,15,17);
-  graphs[0].set_obs(9,4,12,8);
-  graphs[0].set_obs(4,13,7,16);
+  graphs[0].set_obs(39,25,89,75);
+  graphs[0].set_obs(170,32,270,82);
+  graphs[0].set_obs(154,177,224,237);
 
   vector<int> temp_path;
 
+
+
   temp_path.clear();
-  temp_path.push_back(16);
-  temp_path.push_back(16);
-  temp_path.push_back(10);
   temp_path.push_back(0);
+  temp_path.push_back(50);
+  temp_path.push_back(169);
+  temp_path.push_back(55);
+  temp_path.push_back(3);
+  temp_path.push_back(0);
+  pathes.push(temp_path);
+
+  temp_path.clear();
+  temp_path.push_back(20);
+  temp_path.push_back(0);
+  temp_path.push_back(169);
+  temp_path.push_back(36);
   temp_path.push_back(2);
+  temp_path.push_back(0);
+  pathes.push(temp_path);
+
+
+  temp_path.clear();
+  temp_path.push_back(153);
+  temp_path.push_back(190);
+  temp_path.push_back(0);
+  temp_path.push_back(100);
+  temp_path.push_back(1);
+  temp_path.push_back(1);
   pathes.push(temp_path);
 
   temp_path.clear();
-  temp_path.push_back(8);
-  temp_path.push_back(16);
-  temp_path.push_back(1);
+  temp_path.push_back(38);
+  temp_path.push_back(33);
   temp_path.push_back(0);
+  temp_path.push_back(100);
+  temp_path.push_back(1);
   temp_path.push_back(1);
   pathes.push(temp_path);
 
-  temp_path.clear();
-  temp_path.push_back(13);
-  temp_path.push_back(7);
-  temp_path.push_back(1);
-  temp_path.push_back(0);
-  temp_path.push_back(1);
-  pathes.push(temp_path);
 
   cout<<"Modulize successfully !!"<<endl;
   return true;

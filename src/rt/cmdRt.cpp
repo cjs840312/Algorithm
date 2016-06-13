@@ -30,8 +30,14 @@ ReadCmd::exec(const string& option)
    vector<string> tokens,target ;
    myStr2Tok(option,tokens);
 
-   if(tokens.size()>5)
+   if( tokens.size() > 5 ) {
+      cerr<<"Read <case.v> <case_input.def> <tech.lef> <blocks.lef> <initial_files>"<<endl;
       return errorOption(CMD_OPT_EXTRA, tokens[5]);
+   }
+   else if( tokens.size() < 5) {
+      cerr<<"Read <case.v> <case_input.def> <tech.lef> <blocks.lef> <initial_files>"<<endl;
+      return errorOption(CMD_OPT_MISSING, " ");
+   }
    else if(getParameter(tokens, target, 5))
    {
       delete rtMgr;
@@ -42,7 +48,6 @@ ReadCmd::exec(const string& option)
                fin2( target[2].c_str()),
                fin4( target[4].c_str()), 
                fin1( target[1].c_str()) ;
-
 
       if( !fin3.is_open() || !rtMgr->parse_block(fin3))
       {
@@ -91,7 +96,7 @@ ReadCmd::exec(const string& option)
 void
 ReadCmd::usage(ostream& os) const
 {
-   os << "Usage: REad < string File1 > < string File2 >" << endl;
+   os << "Usage: REad <case.v> <case_input.def> <tech.lef> <blocks.lef> <initial_files>" << endl;
 }
 
 void
@@ -168,7 +173,7 @@ RoutingCmd::help() const
 }
 
 //-----------------------------------------------------------------------------
-//    Print
+//    Print <plane_#> <bmp_name>
 //-----------------------------------------------------------------------------
 
 CmdExecStatus
@@ -185,6 +190,7 @@ PrintCmd::exec(const string& option)
       if(!myStr2Int(target[0],p))
       {
          cerr<<"Illegal argument \""<<target[0]<<"\" !!"<<endl;
+         cerr<<"Print <plane_#> <bmp_name>"<<endl;
          return CMD_EXEC_ERROR;
       }
       

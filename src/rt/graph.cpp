@@ -8,7 +8,7 @@ using namespace std;
 extern unsigned int color_gen(int, int, int);
 
 Graph::Graph()
-:idx_num(0),line_size(0),color_array(0)
+:idx_num(0),line_size(0),color_array(0),l_r(false)
 {
    colors.push_back( color_gen(  0,  0,  0) );
    colors.push_back( color_gen(255,255,255) );
@@ -82,8 +82,7 @@ Graph::print_char(int x) const
       return '#';
    if(x==0)
       return ' ';
-   if(x!=3)
-      return (char)(x+35);
+   return (char)(x+35);
 }
 
 void
@@ -132,16 +131,28 @@ Graph::init_parent()
 
 
 void
-Graph::set_path(int x1,int y1,int x2,int y2,bool change )
+Graph::set_path(int x1,int y1,int x2,int y2,bool change,bool multi )
 {
    if(change==true)
       line_size++;
 
-   start=&nodes[x1][y1];
-   end=&nodes[x2][y2];
+
+   if(!multi || end==0)
+      l_r = ( x1 > x2 ? x1-x2 : x2-x1 ) > ( y1 > y2 ? y1-y2 : y2-y1 );
+   else
+   {
+      if(end->pos[0]==0 || end->pos[0]==size[1]-1)
+         l_r=false;
+      else 
+         l_r=true;
+   }
+
+   start = &nodes[x1][y1];
+   end = &nodes[x2][y2];
 
    start->set_idx(line_size);
    end->set_idx(line_size);
+
 }
 
 bool
@@ -155,9 +166,6 @@ Graph::A_star()
    int sizen;
    int ex = end->pos[0] ;
    int ey = end->pos[1];
-   int sx = start->pos[0];
-   int sy = start->pos[1];
-   bool l_r = ( sx > ex ? sx-ex : ex-sx ) > ( sy > ey ? sy-ey : ey-sy );
 
    que.push(start->rank_calc(ex,ey),start);
 

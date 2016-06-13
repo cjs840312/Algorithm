@@ -65,6 +65,8 @@ int main(int argc, char** argv)
        <<"* Version       : Alpha                                                        *"<<endl
        <<"* Last modified : 2016.06.12                                                   *"<<endl
        <<"* Description   :                                                              *"<<endl
+       <<"* Usage         : type  \"help [Command]\"                                       *"<<endl
+       <<"                  to see usage and arguments of each command.                  *"<<endl
        <<"********************************************************************************"<<endl;
 
    myusage = new MyUsage();

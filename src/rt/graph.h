@@ -49,7 +49,7 @@ public:
    void print() const;
    void set_obs(int,int,int,int);
    void init_state();
-   void set_path(int,int,int,int,bool=true);
+   void set_path(int,int,int,int,bool=true,bool=false);
    bool A_star();
    bool trace();
    void on_color();
@@ -70,6 +70,7 @@ private:
    GraphNode **nodes;
    GraphNode *start,*end;
    unsigned int** color_array; 
+   bool l_r;
 
 
 };
