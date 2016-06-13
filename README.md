@@ -5,7 +5,7 @@
 This is a project on 2016 CAD contest problem E:
 [Multiple Power Distribution Network Planning](http://cad-contest-2016.el.cycu.edu.tw/Problem_E/default.html)
 
-To Compile: Ine the project root directory type `$make`
+To Compile: In the project root directory type `$ make`
 
 To Run: type `$./bin/cmd`   The excution file is in bin/
 
