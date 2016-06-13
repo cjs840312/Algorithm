@@ -8,7 +8,6 @@ To Run: type $./bin/cmd
 	The excution file is in bin/
 
 See Help: type $help 
-	  
 	  ,in the running program
 	  
 	  Show all the support command
