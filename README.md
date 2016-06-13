@@ -2,6 +2,9 @@
 
 [PowerPoint](https://drive.google.com/file/d/0B2vUsVJTiMCKVll0WXY4bW5JVzg/view?usp=sharing)
 
+This is a project on 2016 CAD contest problem E:
+[Multiple Power Distribution Network Planning](http://cad-contest-2016.el.cycu.edu.tw/Problem_E/default.html)
+
 To Run: type `$./bin/cmd`   The excution file is in bin/
 
 See Help: type ` $help` ,in the running program. Show all the support command
