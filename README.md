@@ -8,7 +8,9 @@ To Run: type $./bin/cmd
 	The excution file is in bin/
 
 See Help: type $help 
+	  
 	  ,in the running program
+	  
 	  Show all the support command
 
 To Read: type $read <case.v> <case_input.def> <tech.lef> <blocks.lef> <initial_files>
