@@ -39,7 +39,7 @@ RtMgr::modulize()
   graphs[0].set_obs(154,177,224,237);
   */
 
-  
+
   /*
   vector<int> temp_path;
   vector< vector<int> > tmp_pathes;
@@ -76,7 +76,7 @@ RtMgr::modulize()
   temp_path.push_back(169);
   temp_path.push_back(55);
   temp_path.push_back(3);
-  temp_path.push_back(0);
+  temp_path.push_back(0); 
   pathes.push(temp_path);
 
   temp_path.clear();
