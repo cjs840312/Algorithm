@@ -33,6 +33,7 @@ static bool parse_site(ifstream& , vector<string>&);
 static bool parse_macro(ifstream& , vector<string>&, Field& field);
 static bool parse_pin(ifstream& , vector<string>&,block&);
 static bool parse_layer(ifstream& , vector<string>&,vector<vector<string> >& );
+static bool parse_obs (ifstream&, vector<string>&, vector<vector<string> >& );
 
 bool
 RtMgr::parse_block(ifstream& fin)
@@ -194,7 +195,7 @@ static bool parse_macro(ifstream& fin,vector<string>& v,Field& field)
           parse_pin(fin,tokens,temp_block);
           break;
         case OBS :
-          parse_layer(fin,tokens,temp_block.OBS);
+          parse_obs(fin,tokens,temp_block.OBS);
           break;
         case END :
           if(tokens[1]==temp_block.name && tokens.size()==2)
@@ -270,8 +271,57 @@ static bool parse_layer(ifstream& fin,vector<string>& v,vector<vector<string> >&
           check_comment(s);
           tokens.clear();
           myStr2Tok(s,tokens);
-          for(int i=0,size=tokens.size();i<size;i++)
+          for(int i=1,size=tokens.size()-1;i<size;i++) {
+            //cout<<tokens[i]<<endl;
             x.push_back(tokens[i]);
+          }
+          layers.push_back(x);
+          x.clear();
+          break;
+        case END :
+          if(tokens.size()==1) {
+            /*
+            cout<<"~~~~"<<endl;
+            for(int i=0; i<layers.size(); ++i) {
+              for(int j =0; j<layers[i].size(); ++j )
+                cout<<layers[i][j]<<" ";
+              cout<<endl;
+            }
+            */
+            return true;
+          }
+          cerr<<"Illigal header \""<<tokens[1]<<"\" !!";
+          return false;
+        case ERO :
+        default :
+          cerr<<"Illigal header \""<<tokens[0]<<"\" !!";
+          return false;
+    }
+  }
+  
+}
+static bool parse_obs(ifstream& fin,vector<string>& v,vector<vector<string> >& layers)
+{
+  string s;
+  vector<string> x;
+
+  while(getline(fin,s))
+  {  
+    check_comment(s);
+    vector<string> tokens;
+    myStr2Tok(s,tokens);
+    if(tokens.empty()) continue;
+    switch(parse_state(tokens[0]))
+    {
+        case LAYER:
+          x.push_back(tokens[1]);
+          getline(fin,s);
+          check_comment(s);
+          tokens.clear();
+          myStr2Tok(s,tokens, " ;");
+          for(int i=1,size=tokens.size();i<size;i++) {
+            x.push_back(tokens[i]);
+          }
           break;
         case END :
           if(tokens.size()==1)
