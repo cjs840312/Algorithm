@@ -11,7 +11,6 @@ RtMgr::routing()
 
       vector<int> path = pathes.top();
       pathes.pop();
-
       if(path[4]==current_line)
       {
          graphs[0].set_path(path[0],path[1],path[2],path[3],false,(bool)path[5]);

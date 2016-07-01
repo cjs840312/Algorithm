@@ -33,8 +33,11 @@ RtMgr::parse_v(ifstream& fin)
 		{
 			case MODULE: /* skip error handling */	break;			
 			case INPUT:
-				for(int i=1,size=tokens.size();i<size;i++)
-					field.inputs.push_back(tokens[i]);
+				for(int i=1,size=tokens.size();i<size;i++) {
+					Input tmp_input;
+					tmp_input.name = tokens[i];
+					(field.inputs_map).insert( pair< string,Input > (tmp_input.name, tmp_input) );
+				}
 				break;
 			case BLOCK:
 			{	
@@ -43,7 +46,7 @@ RtMgr::parse_v(ifstream& fin)
 			    {
 			    	block& b = it->second;
 			    	b.num++;
-			    	b.member.push_back(tokens[1]);
+			    	b.member.push_back(tokens[1]); //initial B1, B2,etc member
 					for(int i=2,size=tokens.size();i<size;i+=2)
 					{
 						map<string,pin>::iterator it1=b.pins.find( tokens[i]);
@@ -51,6 +54,7 @@ RtMgr::parse_v(ifstream& fin)
 					    {
 					    	pin& p = it1->second;
 					    	p.destination.push_back(tokens[i+1]);
+					    	//cout<<p.destination[0]<<endl;
 		    			}
 		    			else 
 		    			{

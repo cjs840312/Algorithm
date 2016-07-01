@@ -31,7 +31,8 @@ public :
 	string CLASS;
 	int ORIGIN[2];
 	int size[2];
-	vector<string> SYMMETRY ;  	
+	int position[2];  // different menber should have different value, for demo convinient to save here
+	vector<string> SYMMETRY ; 	
 	vector< vector<string> > OBS ; // need to be tarsform to int
 
 	map<string, pin> pins;

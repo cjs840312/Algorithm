@@ -7,6 +7,7 @@
 
 using namespace std;
 
+
 enum STATE
 {
   VERSION,
@@ -28,14 +29,13 @@ enum STATE
 static void check_comment(string& s);
 static STATE parse_state(string&);
 static void parse_property(ifstream&);
-static void parse_component(ifstream&,int);
-static void parse_pins(ifstream&);
+static void parse_component(ifstream&,int, Field&);
+static void parse_pins(ifstream&, Field&);
 
 bool
 RtMgr::parse_input_def(ifstream& fin)
 {
    string version, dividerchar, busbitchar,design;
-   int unit,diearea[4];
    string s;
    STATE state;
    while(getline(fin,s))
@@ -60,19 +60,21 @@ RtMgr::parse_input_def(ifstream& fin)
             break;
           case UNITS :
             if(tokens[1]=="DISTANCE" && tokens[2]=="MICRONS")
-               myStr2Int(tokens[3],unit);
+               myStr2Int(tokens[3],field.unit);
             break;
           case PROPERTYDEFINITIONS :
             parse_property(fin);
             break;
           case DIEAREA :
-            for(int i=0;i<4;i++)
-              myStr2Int(tokens[i+1],diearea[i]);     
+          {
+            for(int i=0;i<4;i++) {
+              myStr2Int(tokens[i+1],field.diearea[i]);   
+            }
             break;
+          }
          case TRACKS :
           {
             //TODO..
-                
             break;
           }
           case GCELLGRID :
@@ -84,11 +86,11 @@ RtMgr::parse_input_def(ifstream& fin)
           case COMPONENTS :
           {  
             int n;myStr2Int(tokens[1],n);
-            parse_component(fin,n); //TODO
+            parse_component(fin,n,field); //TODO
             break;
           }
           case PINS :
-            parse_pins(fin); //TODO
+            parse_pins(fin, field); //TODO
             break;
           case END :
             return true;
@@ -98,7 +100,6 @@ RtMgr::parse_input_def(ifstream& fin)
             return false;
       }
    }
-
    return false;
 }
 
@@ -165,6 +166,7 @@ static void parse_property(ifstream& fin)
         break;
       case DESIGN :
         //Skip
+        break;
       case END :
         return ;
       default:
@@ -174,10 +176,9 @@ static void parse_property(ifstream& fin)
   }
 }
 
-static void parse_component(ifstream& fin,int n)
+static void parse_component(ifstream& fin,int n, Field& field)
 {
   string s,block_type,block_name,dirc;
-  int x,y;
 
   for(int i=0;i<n;i++)
   {
@@ -191,14 +192,17 @@ static void parse_component(ifstream& fin,int n)
 
     block_name=tokens[0];
     block_type=tokens[1];
-    myStr2Int(tokens[3],x);
-    myStr2Int(tokens[4],y);
+    map<string,block>::iterator it=field.blocks.find( block_type );
+    block& b = it->second;
+
+    myStr2Int(tokens[3], b.position[0] );
+    myStr2Int(tokens[4], b.position[1] );
     dirc=tokens[5];
 
   }
 }
 
-static void parse_pins(ifstream& fin)
+static void parse_pins(ifstream& fin, Field& field)
 {
   string all="",s,temp;
   while(getline(fin,s))
@@ -208,30 +212,32 @@ static void parse_pins(ifstream& fin)
     if(temp=="END") break;
     all+=s;
   }
-
+  
   vector<string> lines;
   myStr2Tok(all,lines,";");
   for(int i=0,size=lines.size();i<size;i++)
   {
     vector<string> tokens;
     myStr2Tok(lines[i],tokens,"\n +()");
-    string name=tokens[1];
+    //string name=tokens[1];
+    map<string, Input>::iterator it = field.inputs_map.find( tokens[1] );
+    Input& input = it->second;
     for(int j=2,sizet=tokens.size();j<size;j++)
     {
       if(tokens[j]=="LAYER")
       {
-        string metal=tokens[++j];
-        int place[4];
-        myStr2Int(tokens[++j],place[0]);
-        myStr2Int(tokens[++j],place[1]);
-        myStr2Int(tokens[++j],place[2]);
-        myStr2Int(tokens[++j],place[3]);
+        input.metal_layer=tokens[++j];
+        //int place[4];
+        myStr2Int(tokens[++j],input.metal_layer_rect[0]);
+        myStr2Int(tokens[++j],input.metal_layer_rect[1]);
+        myStr2Int(tokens[++j],input.metal_layer_rect[2]);
+        myStr2Int(tokens[++j],input.metal_layer_rect[3]);
       }
       if(tokens[j]=="FIXED")
       {
-        int place[2];
-        myStr2Int(tokens[++j],place[0]);
-        myStr2Int(tokens[++j],place[1]);
+        //int place[2];
+        myStr2Int(tokens[++j],input.position[0]);
+        myStr2Int(tokens[++j],input.position[1]);
         string dir=tokens[++j];
       }
     }
